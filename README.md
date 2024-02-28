@@ -23,14 +23,6 @@ emailspoofergui
 
 The GUI will prompt you to enter your email username, password, and SMTP server address. Once you provide this information, you can start spoofing emails by entering the sender address, recipient(s), subject, and content in the respective fields and clicking the "Send" button.
 
-### Command-Line Interface (CLI)
-
-Alternatively, you can use the command-line interface (CLI) to send spoofed emails. You can simply type the following command in the terminal:
-
-emailspoofercli
-
-
-This will automatically prompt you to enter your email username, password, SMTP server address, sender address, recipient(s), subject, and message. After providing this information, the email will be sent.
 
 ## Configuration
 
