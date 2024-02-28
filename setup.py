@@ -8,7 +8,7 @@ def prompt_user():
     return {"username": username, "password": password, "smtp_server": smtp_server}
 
 def write_config(config):
-    with open('config.json', 'w') as f:
+    with open('emailspoofergui/config.json', 'w') as f:
         json.dump(config, f)
 
 # Prompt user for information during installation
