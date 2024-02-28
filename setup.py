@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='emailspoofergui',
-    version='2.5',
+    version='2.7',
     packages=find_packages(),
     package_data={'emailspoofergui': ['data/config.json']},
     install_requires=[
