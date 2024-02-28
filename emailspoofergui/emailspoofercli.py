@@ -27,12 +27,20 @@ def send_email():
     print_colored_figlet_text("KORISHEE THE CYBERMASTER", Fore.GREEN)
     print_with_animation(f"{Fore.RED}PRESENTING A AUTOMATED REMOTE ACCESS TROJEN BINDERS FROM")
     # Read configuration from file
+def load_config():
+    # Get the path to the directory containing the current script
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    # Construct the path to the config.json file within the package data directory
+    config_file_path = os.path.join(script_dir, 'data', 'config.json')
+
     try:
-        with open('config.json') as config_file:
+        # Open and read the config.json file
+        with open(config_file_path) as config_file:
             config = json.load(config_file)
+        return config
     except FileNotFoundError:
         print("Config file not found or invalid.")
-        return
+        return None
     
     print_with_animation(f"{Fore.RED}Please enter the credentials to send spoofed mail")
     sender_name = input("Enter sender's name and email (e.g., 'From DBBL Support <ccs.cmc@dutchbanglabank.com>'): ")
