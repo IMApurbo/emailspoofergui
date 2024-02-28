@@ -1,0 +1,5 @@
+{
+    "username": "enter_your_mail_here",
+    "password": "enter_your_password_here",
+    "smtp_server": "enter_your_mail_server_and_port_separeted_with(:)"
+}
