@@ -1,31 +1,17 @@
 from setuptools import setup, find_packages
-import json
-
-def prompt_user():
-    username = input("Enter your email username: ")
-    password = input("Enter your email password: ")
-    smtp_server = input("Enter your SMTP server address (e.g., smtp.example.com:587): ")
-    return {"username": username, "password": password, "smtp_server": smtp_server}
-
-def write_config(config):
-    with open('emailspoofergui/config.json', 'w') as f:
-        json.dump(config, f)
-
-# Prompt user for information during installation
-config = prompt_user()
-write_config(config)
 
 setup(
     name='emailspoofergui',
-    version='1.1',
+    version='0.1',
     packages=find_packages(),
+    package_data={'emailspoofergui': ['data/config.json']},
     install_requires=[
         # List your dependencies here
     ],
     entry_points={
         'console_scripts': [
-            'emailspoofer = emailspoofergui.emailspoofergui:main',  # GUI entry point
-            'emailspoofercli = emailspoofergui.emailspoofercli:main',  # CLI entry point
+            'emailspoofercli = emailspoofergui.emailspoofercli:main',
+            'emailspoofergui = emailspoofergui.emailspoofergui:main',
         ],
     },
     author='AKM Korishee Apurbo',
