@@ -48,6 +48,9 @@ def send_email():
                 json.dump(new_config, config_file, indent=4)
             messagebox.showinfo("Success", "Configuration saved successfully.")
             edit_window.destroy()
+            # Reload the JSON configuration
+            global config
+            config = load_config()
 
         save_button = tk.Button(edit_window, text="Save", command=save_config)
         save_button.grid(row=1, column=0, pady=10)
@@ -57,6 +60,7 @@ def send_email():
     root.geometry("800x500+500+0")
 
     # Read configuration from file
+    global config
     config = load_config()
 
     if config:
@@ -95,7 +99,7 @@ def send_email():
 
         # Button to edit config
         edit_config_button = tk.Button(root, text="->", command=edit_config)
-        edit_config_button.grid(row=7, column=0, columnspan=2, pady=10,sticky="se")
+        edit_config_button.grid(row=7, column=0, columnspan=2, pady=10, sticky="se")
 
         root.mainloop()
     else:
