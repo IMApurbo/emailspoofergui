@@ -1,37 +1,38 @@
-# emailspoofergui
+# Email Spoofer GUI
 
-emailspoofergui is a Python package that allows you to easily spoof emails using a graphical user interface (GUI) or a command-line interface (CLI).
-It provides a simple and intuitive way to send spoofed emails with custom sender addresses, recipients, subject, and content.
+Email Spoofer GUI is a Python package that provides a graphical user interface for spoofing emails.
 
 ## Installation
 
-You can install EmailSpooferGUI via pip:
+You can install Email Spoofer GUI from PyPI using pip:
 
-
+```bash
 pip install emailspoofergui
-
+```
 
 ## Usage
 
-### Graphical User Interface (GUI)
+After installing the package, you can run the Email Spoofer GUI from the command line:
 
-After installing EmailSpooferGUI, you can launch the graphical user interface by running the following command:
-
-
+```bash
 emailspoofergui
+```
 
+This will launch the graphical user interface where you can spoof emails and edit configuration settings.
 
-The GUI will prompt you to enter your email username, password, and SMTP server address. Once you provide this information, you can start spoofing emails by entering the sender address, recipient(s), subject, and content in the respective fields and clicking the "Send" button.
+## Features
 
+- Spoof emails with custom sender, recipient, subject, and message.
+- Edit configuration settings for SMTP server, username, and password.
+- Simple and intuitive user interface.
 
 ## Configuration
 
-EmailSpooferGUI saves your email configuration (username, password, SMTP server address) in a `config.json` file located in the package directory. You can also manually edit this file if needed.
+The configuration settings for the SMTP server, username, and password are stored in the `config.json` file. You can edit this file directly or use the "Edit Config"(->) button in the GUI to modify the settings.
 
 ## Contributing
 
-Contributions are welcome! If you encounter any issues or have suggestions for improvements, please open an issue on the [GitHub repository](https://github.com/IMApurbo/emailspoofergui).
-Pull requests are also appreciated.
+Contributions are welcome! If you'd like to contribute to this project, please see the [CONTRIBUTING.md](CONTRIBUTING.md) file for guidelines.
 
 ## License
 
