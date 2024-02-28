@@ -1,6 +1,9 @@
 import subprocess
 import json
+import pkg_resources
 import tkinter as tk
+from tkinter import messagebox
+from tkinter import filedialog
 import os
 
 def send_email():
@@ -18,6 +21,36 @@ def send_email():
             result_label.config(text="Email sent successfully!", fg="green")
         except subprocess.CalledProcessError as e:
             result_label.config(text=f"Error: {e}", fg="red")
+
+    # Function to open config file in editor
+    def open_config_file():
+        config_path = get_config_path()
+        os.startfile(config_path)  # Open with default program
+
+    # Function to open dialog box to edit config
+    def edit_config():
+        edit_window = tk.Toplevel(root)
+        edit_window.title("Edit Configuration")
+
+        # Read configuration from file
+        config = load_config()
+
+        # Create text box to display converted text
+        text_box = tk.Text(edit_window, wrap="word", height=20, width=50, fg="green")
+        text_box.grid(row=0, column=0, padx=10, pady=10, sticky="nsew")
+        text_box.insert(tk.END, json.dumps(config, indent=4))  # Insert JSON content into text box
+
+        # Save button to overwrite config file
+        def save_config():
+            new_config = json.loads(text_box.get("1.0", "end-1c"))  # Get JSON content from text box
+            config_path = get_config_path()
+            with open(config_path, "w") as config_file:
+                json.dump(new_config, config_file, indent=4)
+            messagebox.showinfo("Success", "Configuration saved successfully.")
+            edit_window.destroy()
+
+        save_button = tk.Button(edit_window, text="Save", command=save_config)
+        save_button.grid(row=1, column=0, pady=10)
 
     root = tk.Tk()
     root.title("Email Spoofer from AKM KORISHEE APURBO")
@@ -60,24 +93,31 @@ def send_email():
         result_label = tk.Label(root, text="", font=("Arial", 12))
         result_label.grid(row=6, column=0, columnspan=2)
 
+        # Button to edit config
+        edit_config_button = tk.Button(root, text="->", command=edit_config)
+        edit_config_button.grid(row=7, column=0, columnspan=2, pady=10,sticky="se")
+
         root.mainloop()
     else:
         print("Failed to load configuration.")
 
 def load_config():
-    # Get the path to the directory containing the current script
-    script_dir = os.path.dirname(os.path.abspath(__file__))
-    # Construct the path to the config.json file within the package data directory
-    config_file_path = os.path.join(script_dir, '/home/kali/Extratool/previousemailgui/emailspoofergui/config.json')
-
     try:
-        # Open and read the config.json file
-        with open(config_file_path) as config_file:
+        # Load the config.json file from the package data
+        config_path = get_config_path()
+        with open(config_path) as config_file:
             config = json.load(config_file)
         return config
     except FileNotFoundError:
         print("Config file not found or invalid.")
         return None
+
+def get_config_path():
+    # Get the directory of the package data
+    data_dir = pkg_resources.resource_filename("emailspoofergui", "data")
+    # Construct the path to the config.json file
+    config_path = os.path.join(data_dir, "config.json")
+    return config_path
 
 if __name__ == "__main__":
     send_email()
