@@ -41,6 +41,15 @@ def load_config():
     except FileNotFoundError:
         print("Config file not found or invalid.")
         return None
+config = load_config()
+
+# Check if configuration was loaded successfully
+if config:
+    # Configuration loaded successfully, use it as needed
+    print("Configuration loaded successfully:", config)
+else:
+    # Configuration loading failed
+    print("Failed to load configuration.")
     
     print_with_animation(f"{Fore.RED}Please enter the credentials to send spoofed mail")
     sender_name = input("Enter sender's name and email (e.g., 'From DBBL Support <ccs.cmc@dutchbanglabank.com>'): ")
