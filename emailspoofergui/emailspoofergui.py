@@ -23,12 +23,29 @@ def send_email():
     root.geometry("800x500+500+0")
 
     # Read configuration from file
+def load_config():
+    # Get the path to the directory containing the current script
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    # Construct the path to the config.json file within the package data directory
+    config_file_path = os.path.join(script_dir, 'data', 'config.json')
+
     try:
-        with open('config.json') as config_file:
+        # Open and read the config.json file
+        with open(config_file_path) as config_file:
             config = json.load(config_file)
+        return config
     except FileNotFoundError:
         print("Config file not found or invalid.")
-        return
+        return None
+config = load_config()
+
+# Check if configuration was loaded successfully
+if config:
+    # Configuration loaded successfully, use it as needed
+    print("Configuration loaded successfully:", config)
+else:
+    # Configuration loading failed
+    print("Failed to load configuration.")
 
     label = tk.Label(root, text="KORISHEE THE CYBERMASTER", font=("Comic Sans MS", 18 , "bold"))
     label.grid(row=0, column=0, columnspan=2, pady=10)
