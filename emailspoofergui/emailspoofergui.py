@@ -22,10 +22,6 @@ def send_email():
         except subprocess.CalledProcessError as e:
             result_label.config(text=f"Error: {e}", fg="red")
 
-    # Function to open config file in editor
-    def open_config_file():
-        config_path = get_config_path()
-        os.startfile(config_path)  # Open with default program
 
     # Function to open dialog box to edit config
     def edit_config():
@@ -48,7 +44,7 @@ def send_email():
                 json.dump(new_config, config_file, indent=4)
             messagebox.showinfo("Success", "Configuration saved successfully.")
             edit_window.destroy()
-            # Reload the JSON configuration
+            # Reload the configuration
             global config
             config = load_config()
 
@@ -98,7 +94,7 @@ def send_email():
         result_label.grid(row=6, column=0, columnspan=2)
 
         # Button to edit config
-        edit_config_button = tk.Button(root, text="->", command=edit_config)
+        edit_config_button = tk.Button(root, fg="red", text=">>", command=edit_config)
         edit_config_button.grid(row=7, column=0, columnspan=2, pady=10, sticky="se")
 
         root.mainloop()
