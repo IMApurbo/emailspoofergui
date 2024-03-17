@@ -1,10 +1,9 @@
 import subprocess
 import json
 import pkg_resources
-import tkinter as tk
-from tkinter import messagebox
-from tkinter import filedialog
 import os
+import customtkinter as ctk
+from CTkMessagebox import CTkMessagebox
 
 def send_email():
     # Function to send the email
@@ -18,23 +17,23 @@ def send_email():
 
         try:
             subprocess.run(sendemail_command, shell=True, check=True)
-            result_label.config(text="Email sent successfully!", fg="green")
+            CTkMessagebox(title="Success", message="Email sent successfully!", icon="info", option_1="ok")
         except subprocess.CalledProcessError as e:
-            result_label.config(text=f"Error: {e}", fg="red")
+            CTkMessagebox(title="Error", message=f"\n{e}", icon="warning", option_1="ok")
 
 
     # Function to open dialog box to edit config
     def edit_config():
-        edit_window = tk.Toplevel(root)
+        edit_window = ctk.CTkToplevel(root)
         edit_window.title("Edit Configuration")
 
         # Read configuration from file
         config = load_config()
 
         # Create text box to display converted text
-        text_box = tk.Text(edit_window, wrap="word", height=20, width=50, fg="green")
+        text_box = ctk.CTkTextbox(edit_window, wrap="word", height=150, width=400)
         text_box.grid(row=0, column=0, padx=10, pady=10, sticky="nsew")
-        text_box.insert(tk.END, json.dumps(config, indent=4))  # Insert JSON content into text box
+        text_box.insert(ctk.END, json.dumps(config, indent=4))  # Insert JSON content into text box
 
         # Save button to overwrite config file
         def save_config():
@@ -42,64 +41,67 @@ def send_email():
             config_path = get_config_path()
             with open(config_path, "w") as config_file:
                 json.dump(new_config, config_file, indent=4)
-            messagebox.showinfo("Success", "Configuration saved successfully.")
+            CTkMessagebox(title="Success", message="Configuration saved successfully.", icon="info", option_1="ok")
             edit_window.destroy()
             # Reload the configuration
             global config
             config = load_config()
 
-        save_button = tk.Button(edit_window, text="Save", command=save_config)
+        save_button = ctk.CTkButton(edit_window, text="Save", command=save_config)
         save_button.grid(row=1, column=0, pady=10)
 
-    root = tk.Tk()
+    root = ctk.CTk()
     root.title("Email Spoofer from AKM KORISHEE APURBO")
     root.geometry("800x500+500+0")
+    root.resizable(False, False)
 
     # Read configuration from file
     global config
     config = load_config()
 
     if config:
-        label = tk.Label(root, text="KORISHEE THE CYBERMASTER", font=("Comic Sans MS", 18 , "bold"))
-        label.grid(row=0, column=0, columnspan=2, pady=10)
-
-        sender_label = tk.Label(root, text="Sender's Email:", fg="green")
+        
+        # Create a label with text "KORISHEE THE CYBERMASTER"
+        label = ctk.CTkLabel(root, text="KORISHEE THE CYBERMASTER", font=("Comic Sans MS", 18 , "bold"))
+        # Use sticky option to center the label horizontally
+        label.grid(row=0, column=0, columnspan=2, pady=10, sticky="ew")
+            
+        sender_label = ctk.CTkLabel(root, text="Sender's Email:  ",font=("Latin Modern Mono Slanted", 16))
         sender_label.grid(row=1, column=0, sticky="w")
-
-        sender_entry = tk.Entry(root, width=70, font=("Arial", 12), fg="purple")
+        
+        sender_entry = ctk.CTkEntry(root, width=600,border_color="blue",font=("Latin Modern Mono Slanted", 16))
         sender_entry.grid(row=1, column=1, sticky="e")
-
-        receiver_label = tk.Label(root, text="Recipient's Email:", fg="green")
+    
+        receiver_label = ctk.CTkLabel(root, text="Recipient's Email:  ",font=("Latin Modern Mono Slanted", 16))
         receiver_label.grid(row=2, column=0, sticky="w")
 
-        receiver_entry = tk.Entry(root, width=70, font=("Arial", 12), fg="green")
+        receiver_entry = ctk.CTkEntry(root, width=600,border_color="red",font=("Latin Modern Mono Slanted", 16))
         receiver_entry.grid(row=2, column=1, sticky="e")
 
-        subject_label = tk.Label(root, text="Subject:", fg="green")
+        subject_label = ctk.CTkLabel(root, text="Subject:  ", font=("Latin Modern Mono Slanted", 16))
         subject_label.grid(row=3, column=0, sticky="w")
 
-        subject_entry = tk.Entry(root, width=70, font=("Arial", 12), fg="red")
+        subject_entry = ctk.CTkEntry(root, width=600,border_color="blue",font=("Latin Modern Mono Slanted", 16))
         subject_entry.grid(row=3, column=1, sticky="e")
 
-        message_label = tk.Label(root, text="Message:", fg="green")
+        message_label = ctk.CTkLabel(root, text="Message:  ",font=("Latin Modern Mono Slanted", 16))
         message_label.grid(row=4, column=0, sticky="w")
 
-        message_entry = tk.Text(root, width=70, height=12, wrap="word", font=("Arial", 12), fg="blue")
+        message_entry = ctk.CTkTextbox(root, width=600, height=250,font=("TeX Gyre Pagella", 14,"bold"))
         message_entry.grid(row=4, column=1, sticky="e")
 
-        send_button = tk.Button(root, fg="green", text="Send Email", command=send)
+        send_button = ctk.CTkButton(root, text="Send Email",font=("MathJax_Main", 16,"italic"),fg_color="blue",hover_color="purple",command=send)
         send_button.grid(row=5, column=0, columnspan=2, pady=10)
 
-        result_label = tk.Label(root, text="", font=("Arial", 12))
-        result_label.grid(row=6, column=0, columnspan=2)
+    
 
         # Button to edit config
-        edit_config_button = tk.Button(root, fg="red", text=">>", command=edit_config)
-        edit_config_button.grid(row=7, column=0, columnspan=2, pady=10, sticky="se")
-
+        edit_button = ctk.CTkButton(root, text="Edit Config",text_color="black", font=("MathJax_Main", 16, "italic"),fg_color="red",hover_color="green", command=edit_config)
+        edit_button.grid(row=6, column=0, columnspan=2, pady=10,sticky="se")
+    
         root.mainloop()
     else:
-        print("Failed to load configuration.")
+        CTkMessagebox(title="Error", message="Failed to load configuration.", icon="warning", option_1="ok")
 
 def load_config():
     try:
@@ -109,7 +111,7 @@ def load_config():
             config = json.load(config_file)
         return config
     except FileNotFoundError:
-        print("Config file not found or invalid.")
+        CTkMessagebox(title="Error", message="Config file not found or invalid.", icon="warning", option_1="ok")
         return None
 
 def get_config_path():
