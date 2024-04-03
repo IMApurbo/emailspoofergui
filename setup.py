@@ -2,11 +2,12 @@ from setuptools import setup, find_packages
 
 setup(
     name='emailspoofergui',
-    version='3.0',
+    version='3.1',
     packages=find_packages(),
     package_data={'emailspoofergui': ['data/config.json']},
     install_requires=[
-        # List your dependencies here
+        'customtkinter',  # Example of a required package with a minimum version
+        'CTkMessagebox',  # Example of a required package with an exact version 
     ],
     entry_points={
         'console_scripts': [
