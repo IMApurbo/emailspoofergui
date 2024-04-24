@@ -4,6 +4,8 @@ import pkg_resources
 import os
 import customtkinter as ctk
 from CTkMessagebox import CTkMessagebox
+from tkinter import filedialog
+
 
 def send_email():
     # Function to send the email
@@ -12,14 +14,27 @@ def send_email():
         receiver_email = receiver_entry.get()
         subject = subject_entry.get()
         message = message_entry.get("1.0", "end-1c")
+        attachment = attachment_entry.get()
+        tls = tls_var.get()
 
-        sendemail_command = f"sendemail -xu {config['username']} -xp {config['password']} -s {config['smtp_server']} -f '{sender_name}' -t {receiver_email} -u '{subject}' -m '{message}'"
+        sendemail_command = f"sendemail -xu {config['username']} -xp {config['password']} -s {config['smtp_server']} -o tls={tls} -f '{sender_name}' -t {receiver_email} -u '{subject}' -m '{message}'"
+        
+        if attachment:
+            sendemail_command += f" -a '{attachment}'"
 
         try:
             subprocess.run(sendemail_command, shell=True, check=True)
             CTkMessagebox(title="Success", message="Email sent successfully!", icon="info", option_1="ok")
         except subprocess.CalledProcessError as e:
             CTkMessagebox(title="Error", message=f"\n{e}", icon="warning", option_1="ok")
+
+    def select_attachment():
+        filename = filedialog.askopenfilename()
+        if filename:  # Check if a file was selected
+            basename = os.path.basename(filename)  # Extract the filename from the full path
+            attachment_entry.delete(0, ctk.END)
+            attachment_entry.insert(0, basename)  # Display only the filename
+            attachment_entry.filename = filename  # Store the full path in a new attribute
 
 
     # Function to open dialog box to edit config
@@ -52,7 +67,7 @@ def send_email():
 
     root = ctk.CTk()
     root.title("Email Spoofer from AKM KORISHEE APURBO")
-    root.geometry("800x500+500+0")
+    root.geometry("800x550+500+0")
     root.resizable(False, False)
 
     # Read configuration from file
@@ -90,8 +105,29 @@ def send_email():
         message_entry = ctk.CTkTextbox(root, width=600, height=250,font=("TeX Gyre Pagella", 14,"bold"))
         message_entry.grid(row=4, column=1, sticky="e")
 
+        # Add attachment entry and button
+        attachment_label = ctk.CTkLabel(root, text="Attachment: ", font=("Latin Modern Mono Slanted", 16))
+        attachment_label.grid(row=5, column=0, sticky="w")
+        
+        attachment_entry = ctk.CTkEntry(root, width=500, border_color="blue",text_color="red", font=("Latin Modern Mono Slanted", 16))
+        attachment_entry.grid(row=5, column=1, sticky="w")
+
+        attachment_button = ctk.CTkButton(root,width=100,border_color="red",hover_color="black", border_width=3,fg_color="blue", text="📎", command=select_attachment)
+        attachment_button.grid(row=5, column=1, sticky="e")
+        
         send_button = ctk.CTkButton(root, text="Send Email",font=("MathJax_Main", 16,"italic"),fg_color="blue",hover_color="purple",command=send)
-        send_button.grid(row=5, column=0, columnspan=2, pady=10)
+        send_button.grid(row=7, column=0, columnspan=2, pady=10)
+
+
+
+
+
+
+        
+        # Add TLS toggle
+        tls_var = ctk.StringVar(value="no")  # Default to TLS on
+        tls_checkbutton = ctk.CTkCheckBox(root, text="Use TLS", variable=tls_var, onvalue="yes", offvalue="no")
+        tls_checkbutton.grid(row=6, column=1, sticky="w")
 
     
 
