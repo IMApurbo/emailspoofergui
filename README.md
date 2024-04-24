@@ -10,6 +10,8 @@ You can install Email Spoofer GUI from PyPI using pip:
 pip install emailspoofergui
 ```
 
+![Screenshot_2024-04-24_05_06_51](https://github.com/IMApurbo/emailspoofergui/assets/155003446/d1cdafa6-7f06-453f-9787-cc5915f5f07b)
+
 ## Usage
 
 After installing the package, you can run the Email Spoofer GUI from the command line:
