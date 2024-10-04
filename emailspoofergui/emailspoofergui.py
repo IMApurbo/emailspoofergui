@@ -1,6 +1,6 @@
 import subprocess
 import json
-import pkg_resources
+from importlib import resources
 import os
 import customtkinter as ctk
 from CTkMessagebox import CTkMessagebox
@@ -152,7 +152,7 @@ def load_config():
 
 def get_config_path():
     # Get the directory of the package data
-    data_dir = pkg_resources.resource_filename("emailspoofergui", "data")
+    data_dir = resources.files("emailspoofergui").joinpath("data")
     # Construct the path to the config.json file
     config_path = os.path.join(data_dir, "config.json")
     return config_path
