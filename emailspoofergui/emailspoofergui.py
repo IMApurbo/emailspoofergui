@@ -64,6 +64,8 @@ def send_email():
 
         save_button = ctk.CTkButton(edit_window, text="Save", command=save_config)
         save_button.grid(row=1, column=0, pady=10)
+    
+    ctk.set_appearance_mode("dark")  # Set dark mode
 
     root = ctk.CTk()
     root.title("Email Spoofer from AKM KORISHEE APURBO")
